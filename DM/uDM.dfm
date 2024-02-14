@@ -34,7 +34,8 @@ object DM: TDM
         ' + '#39'-'#39' + SUBSTRING(CPF_CNPJ,13,2)'
       #9'   END CPF_CNPJ,'
       #9'   LAGRADOURO,'
-      #9'   CASE WHEN ATIVO = 0 THEN '#39'N'#227'o'#39' ELSE '#39'Sim'#39' END ATIVO'
+      #9'   CASE WHEN ATIVO = 0 THEN '#39'N'#227'o'#39' ELSE '#39'Sim'#39' END ATIVO,'
+      #9'   DATA_INCLUSAO'
       'FROM tbcliente'
       'WHERE ((@ATIVO = -1) OR (@ATIVO = ATIVO))'
       '  AND ((@NOME = '#39#39') OR (NOME LIKE '#39'%'#39'+@NOME+'#39'%'#39'))')
@@ -79,6 +80,10 @@ object DM: TDM
       ReadOnly = True
       Required = True
       Size = 3
+    end
+    object quClienteDATA_INCLUSAO: TSQLTimeStampField
+      FieldName = 'DATA_INCLUSAO'
+      Origin = 'DATA_INCLUSAO'
     end
   end
   object dsCliente: TDataSource

@@ -191,7 +191,7 @@ inherited frmCadastroCliente: TfrmCadastroCliente
             Width = 20
             Height = 14
             Alignment = taRightJustify
-            Caption = 'Pais'
+            Caption = 'Pa'#237's'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -12
@@ -228,12 +228,12 @@ inherited frmCadastroCliente: TfrmCadastroCliente
             ParentFont = False
           end
           object Label9: TLabel
-            Left = 381
+            Left = 376
             Top = 173
-            Width = 42
+            Width = 47
             Height = 14
             Alignment = taRightJustify
-            Caption = 'N'#237'mero:'
+            Caption = 'N'#250'mero:'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -12
@@ -323,7 +323,7 @@ inherited frmCadastroCliente: TfrmCadastroCliente
             Width = 170
             Height = 21
             Enabled = False
-            TabOrder = 9
+            TabOrder = 11
           end
           object edtPais: TEdit
             Left = 329
@@ -331,7 +331,7 @@ inherited frmCadastroCliente: TfrmCadastroCliente
             Width = 170
             Height = 21
             Enabled = False
-            TabOrder = 10
+            TabOrder = 12
           end
           object cbUF: TComboBox
             Left = 433
@@ -375,7 +375,7 @@ inherited frmCadastroCliente: TfrmCadastroCliente
             Width = 268
             Height = 21
             Enabled = False
-            TabOrder = 11
+            TabOrder = 9
           end
           object edtNumero: TEdit
             Left = 431
@@ -384,7 +384,7 @@ inherited frmCadastroCliente: TfrmCadastroCliente
             Height = 21
             Enabled = False
             NumbersOnly = True
-            TabOrder = 12
+            TabOrder = 10
           end
         end
         object pnlBot: TPanel
@@ -394,8 +394,6 @@ inherited frmCadastroCliente: TfrmCadastroCliente
           Height = 239
           Align = alClient
           TabOrder = 1
-          ExplicitTop = 217
-          ExplicitHeight = 274
           object grdTelefone: TDBGrid
             Left = 1
             Top = 41
@@ -895,12 +893,6 @@ inherited frmCadastroCliente: TfrmCadastroCliente
       inherited pnlBotoes: TPanel
         Width = 818
         ExplicitWidth = 818
-        inherited btnFiltro: TSpeedButton
-          Left = 466
-          Width = 84
-          ExplicitLeft = 465
-          ExplicitWidth = 84
-        end
         inherited btnAlterar: TSpeedButton
           Left = 550
           ExplicitLeft = 461
@@ -948,7 +940,7 @@ inherited frmCadastroCliente: TfrmCadastroCliente
               FieldName = 'NOME'
               ReadOnly = True
               Title.Caption = 'Nome'
-              Width = 300
+              Width = 250
               Visible = True
             end
             item
@@ -962,14 +954,19 @@ inherited frmCadastroCliente: TfrmCadastroCliente
               FieldName = 'LAGRADOURO'
               ReadOnly = True
               Title.Caption = 'Endere'#231'o'
-              Width = 300
+              Width = 250
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'ATIVO'
               Title.Caption = 'Ativo'
-              Width = 64
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DATA_INCLUSAO'
+              Title.Caption = 'Data Inclus'#227'o'
               Visible = True
             end>
         end

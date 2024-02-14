@@ -23,7 +23,6 @@ type
     pnlCampos: TPanel;
     tbGrid: TTabSheet;
     pnlBotoes: TPanel;
-    btnFiltro: TSpeedButton;
     lblDescricao: TLabel;
     btnAlterar: TSpeedButton;
     btnApagar: TSpeedButton;

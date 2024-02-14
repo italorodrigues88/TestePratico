@@ -31,6 +31,9 @@ implementation
 
 procedure TClienteController.pAlterarCliente;
 begin
+  if ((FCliente.CPF_CNPJ.Trim.IsEmpty) or (FCliente.Nome.Trim.IsEmpty)) then
+    raise Exception.Create('Nome e CPF/CNPJ são obrigatórios.');
+
   FRepository.pAlterarCliente(FCliente);
 end;
 
@@ -75,6 +78,9 @@ end;
 
 procedure TClienteController.pNovoCliente;
 begin
+  if ((FCliente.CPF_CNPJ.Trim.IsEmpty) or (FCliente.Nome.Trim.IsEmpty)) then
+    raise Exception.Create('Nome e CPF/CNPJ são obrigatórios.');
+
   FRepository.pNovoCliente(FCliente);
 end;
 

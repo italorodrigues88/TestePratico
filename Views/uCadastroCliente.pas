@@ -143,6 +143,7 @@ begin
 
   rgTipoPessoa.ItemIndex := 0;
   cbUF.ItemIndex := -1;
+  cbUF.Text := EmptyStr;
 end;
 
 procedure TfrmCadastroCliente.pMappToClass;
@@ -150,10 +151,10 @@ begin
   FCliente.Cliente.Nome        := edtNome.Text;
   FCliente.Cliente.CPF_CNPJ    := edtCPF.Text;
   FCliente.Cliente.RG_IE       := edtRG.Text;
-  FCliente.Cliente.CEP         := StrToInt(edtCEP.Text);
+  FCliente.Cliente.CEP         := StrToIntDef(edtCEP.Text,0);
   FCliente.Cliente.Bairro      := edtBairro.Text;
   FCliente.Cliente.Complemento := edtComplemento.Text;
-  FCliente.Cliente.Numero      := StrToInt(edtNumero.Text);
+  FCliente.Cliente.Numero      := StrToIntDef(edtNumero.Text,0);
   FCliente.Cliente.Lagradouro  := edtEndereco.Text;
   FCliente.Cliente.Cidade      := edtCidade.Text;
   FCliente.Cliente.UF          := cbUF.Text;
@@ -337,10 +338,12 @@ end;
 
 procedure TfrmCadastroCliente.pNovo;
 begin
+  FCliente.Cliente.IDCliente := 0;
   pAtivarCampos(True);
   pLimparCampos;
   ckbAtivo.Checked := True;
   pAtivarBotoesFone(False);
+  DM.quTelefones.Close;
 end;
 
 procedure TfrmCadastroCliente.pPesquisar;
@@ -353,13 +356,21 @@ procedure TfrmCadastroCliente.pSalvar;
 begin
   try
     pMappToClass;
-    FCliente.pNovoCliente;
+    if FAcao = taNovo then
+    begin
+      FCliente.pNovoCliente;
+    end else
+    begin
+      FCliente.pAlterarCliente;
+    end;
     pAtivarCampos(False);
     pAtivarBotoesFone(True);
+    FCliente_ID := FCliente.Cliente.IDCliente;
   except
   on E: Exception do
     begin
-      ShowMessage('Erro ao inserir cliente: ' + E.Message );
+      ShowMessage('Erro ao salvar cliente: ' + E.Message );
+      Abort;
     end;
   end;
 end;
@@ -369,13 +380,13 @@ begin
   inherited;
   if rgTipoPessoa.ItemIndex = 0 then
   begin
-    lblCPF.Caption := 'CPF:';
+    lblCPF.Caption := 'CPF*:';
     lblRG.Caption  := 'RG:';
 
     edtCPF.MaxLength := 11;
   end else
   begin
-    lblCPF.Caption := 'CNPJ:';
+    lblCPF.Caption := 'CNPJ*:';
     lblRG.Caption  := 'IE:';
 
     edtCPF.MaxLength := 14;

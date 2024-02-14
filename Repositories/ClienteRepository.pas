@@ -22,6 +22,8 @@ type
     procedure pSelecionarLista(AFiltro: string = '');
     function fBuscaCliente(AID: Integer): TClienteModel;
     function fBuscaIDCliente(ACliente: TClienteModel): Integer;
+    function fValidaExiste(ACliente: TClienteModel): Integer;
+    function fValidaFoneExiste(ATelefone: TTelefone): Boolean;
   end;
 
 implementation
@@ -110,10 +112,53 @@ begin
   end;
 end;
 
+function TClienteRepository.fValidaExiste(ACliente: TClienteModel): Integer;
+begin
+  Result := 0;
+  with FQuery do
+  begin
+    Close;
+
+    SQL.Clear;
+    SQL.Add('SELECT CLIENTE_ID ');
+    SQL.Add('  FROM tbcliente  ');
+    SQL.Add(' WHERE CPF_CNPJ = ' + QuotedStr(ACliente.CPF_CNPJ));
+    SQL.Add('   AND CLIENTE_ID <> ' + ACliente.IDCliente.ToString);
+    Open;
+
+    if RecordCount > 0 then
+    begin
+      Result := FieldByName('CLIENTE_ID').AsInteger;
+    end;
+    Close;
+  end;
+end;
+
+function TClienteRepository.fValidaFoneExiste(ATelefone: TTelefone): Boolean;
+begin
+  with FQuery do
+  begin
+    Close;
+
+    SQL.Clear;
+    SQL.Add('SELECT CLIENTE_ID      ');
+    SQL.Add('  FROM tbcliente_fone  ');
+    SQL.Add(' WHERE FONE = ' + QuotedStr(ATelefone.FTelefone));
+    SQL.Add('   AND CLIENTE_ID = ' + ATelefone.FIdCliente.ToString);
+    Open;
+
+    Result := (RecordCount > 0);
+    Close;
+  end;
+end;
+
 procedure TClienteRepository.pAlterarCliente(ACliente:TClienteModel);
 begin
   with FQuery do
   begin
+    if fValidaExiste(ACliente) > 0 then
+      raise Exception.Create('Já existe cliente com esse CPF!');
+
     Close;
 
     SQL.Clear;
@@ -130,7 +175,7 @@ begin
     SQL.Add('       CEP = :CEP,                 ');
     SQL.Add('       UF = :UF,                   ');
     SQL.Add('       PAIS = :PAIS,               ');
-    SQL.Add('       ATIVO = :ATIVO,             ');
+    SQL.Add('       ATIVO = :ATIVO              ');
     SQL.Add(' WHERE CLIENTE_ID = :CLIENTE_ID    ');
 
     ParamByName('NOME').Value        := ACliente.Nome;
@@ -156,6 +201,9 @@ procedure TClienteRepository.pAlterarTelefone(ATelefone: TTelefone);
 begin
   with FQuery do
   begin
+    if fValidaFoneExiste(ATelefone) then
+      raise Exception.Create('O telefone já para esse cliente!');
+
     Close;
 
     SQL.Clear;
@@ -211,6 +259,9 @@ procedure TClienteRepository.pNovoCliente(ACliente:TClienteModel);
 begin
   with FQuery do
   begin
+    if fValidaExiste(ACliente) > 0 then
+      raise Exception.Create('Já existe cliente com esse CPF!');
+
     Close;
 
     SQL.Clear;
@@ -243,6 +294,9 @@ procedure TClienteRepository.pNovoTelefone(ATelefone: TTelefone);
 begin
   with FQuery do
   begin
+     if fValidaFoneExiste(ATelefone) then
+      raise Exception.Create('O telefone já para esse cliente!');
+
     Close;
 
     SQL.Clear;

@@ -30,6 +30,7 @@ type
     quTelefonesDATA_INCLUSAO: TSQLTimeStampField;
     quTelefonesOBSE: TStringField;
     quTelefonesFONE_FORMAT: TStringField;
+    quClienteDATA_INCLUSAO: TSQLTimeStampField;
     procedure SQLBeforeConnect(Sender: TObject);
     procedure AlterConexao(Sender: TObject);
     procedure DataModuleCreate(Sender: TObject);
